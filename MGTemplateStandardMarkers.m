@@ -581,8 +581,13 @@
 		NSObject *val = [engine resolveVariable:arg];
 		if (val) {
 			if ([val isKindOfClass:[NSNumber class]]) {
-				argTrue = [(NSNumber *)val boolValue];
-			} else {
+				argTrue = [(NSNumber *) val boolValue];
+			} else if ([val isKindOfClass:[NSString class]]) {
+                val = [(NSString *) val stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                argTrue = [(NSString *) val length] > 0;
+            } else if ([val isKindOfClass:[NSArray class]]) {
+                argTrue = [(NSArray *) val count] > 0;
+            } else if (![val isKindOfClass:[NSNull class]]) {
 				argTrue = YES;
 			}
 		}

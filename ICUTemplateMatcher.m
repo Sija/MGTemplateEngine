@@ -97,7 +97,11 @@
 			NSString *markerString = [matchString substringWithRange:markerRange];
 			NSArray *markerComponents = [self argumentsFromString:markerString];
 			if (markerComponents && [markerComponents count] > 0) {
-				[markerInfo setObject:[markerComponents objectAtIndex:0] forKey:MARKER_NAME_KEY];
+                if ([markerString hasPrefix:@"\""] || [markerString hasPrefix:@"'"]) {
+                    [markerInfo setObject:markerString forKey:MARKER_NAME_KEY];
+                } else {
+                    [markerInfo setObject:[markerComponents objectAtIndex:0] forKey:MARKER_NAME_KEY];
+                }
 				int count = [markerComponents count];
 				if (count > 1) {
 					[markerInfo setObject:[markerComponents subarrayWithRange:NSMakeRange(1, count - 1)] 

@@ -48,7 +48,8 @@
 + (NSString *)version
 {
 	// 1.0.0	20 May 2008
-	return @"1.0.0";
+    // 1.0.1    Late 2009 ;>
+	return @"1.0.1";
 }
 
 
@@ -372,6 +373,9 @@
 
 - (NSObject *)resolveVariable:(NSString *)var
 {
+    if ([var hasPrefix:@"\""] || [var hasPrefix:@"'"]) {
+        return [var stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'"]];
+    }
 	NSObject *parent = nil;
 	NSString *key = nil;
 	NSObject *result = [self valueForVariable:var parent:&parent parentKey:&key];
