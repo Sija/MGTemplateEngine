@@ -11,7 +11,7 @@
 @implementation NSArray (DeepMutableCopy)
 
 
-- (NSMutableArray *)deepMutableCopy;
+- (NSMutableArray *)deepMutableCopy
 {
     NSMutableArray *newArray;
     unsigned int index, count;

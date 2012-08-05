@@ -342,7 +342,7 @@
 		*blockEnded = YES;
 		
 	} else if ([marker isEqualToString:IF_START]) {
-		if (args && ([args count] == 1 || [args count] == 3)) {
+		if (args && ([args count] >= 1 && [args count] <= 3)) {
 			*blockStarted = YES;
 			
 			// Determine appropriate values for outputEnabled and for our if-stack frame.
@@ -581,18 +581,24 @@
 		NSObject *val = [engine resolveVariable:arg];
 		if (val) {
 			if ([val isKindOfClass:[NSNumber class]]) {
-				argTrue = [(NSNumber *) val boolValue];
-			} else if ([val isKindOfClass:[NSString class]]) {
-                val = [(NSString *) val stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                argTrue = [(NSString *) val length] > 0;
-            } else if ([val isKindOfClass:[NSArray class]]) {
-                argTrue = [(NSArray *) val count] > 0;
-            } else if (![val isKindOfClass:[NSNull class]]) {
-				argTrue = YES;
+				argTrue = [(NSNumber *)val boolValue];
 			}
-		}
-	}
-	return argTrue;
+      else if ([val isKindOfClass:[NSString class]]) {
+        val = [(NSString *) val stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        argTrue = [(NSString *)val length] > 0;
+      }
+      else if ([val isKindOfClass:[NSArray class]]) {
+        argTrue = [(NSArray *)val count] > 0;
+      }
+      else if ([val isKindOfClass:[NSNull class]]) {
+        argTrue = NO;
+      }
+      else {
+        argTrue = YES;
+      }
+    }
+  }
+  return argTrue;
 }
 
 
